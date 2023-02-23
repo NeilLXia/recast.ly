@@ -1,11 +1,35 @@
-var VideoPlayer = () => (
+import VideoDetails from './VideoDetails.js'
+
+function htmlDecode(input) {
+  var doc = new DOMParser().parseFromString(input, "text/html");
+  return doc.documentElement.textContent;
+}
+
+function autoplay() {
+  let element = document.getElementById('autoplay');
+  if (element === null) {
+    return '';
+  }
+  if (element.checked === false) {
+    return '';
+  }
+
+  return '?autoplay=1';
+}
+
+var VideoPlayer = (props) => (
   <div className="video-player">
     <div className="embed-responsive embed-responsive-16by9">
-      <iframe className="embed-responsive-item" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1" allowFullScreen></iframe>
+      <iframe className="embed-responsive-item" src={'https://www.youtube.com/embed/' + props.video.id.videoId + autoplay()} allowFullScreen></iframe>
     </div>
-    <div className="video-player-details">
-      <h3>Video Title</h3>
-      <div>Video Description</div>
+    <div align="right">Autoplay
+      <label className="switch">
+        <input type="checkbox" id="autoplay"></input>
+        <span className="slider round"></span>
+      </label>
+    </div>
+    <div>
+      <VideoDetails video={props.video}/>
     </div>
   </div>
 );
